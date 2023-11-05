@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* canvas画布水平垂直居中 */
+        #canvas{
+            border:3px dashed #000;
+            margin:0 auto;
+            display:block;
+        }
+        .set{
+            text-align:center;
+            margin-top: 10px;
+        }
+        html,body{
+            background-color: whitesmoke;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <canvas id="canvas" width="600px" height="400px"></canvas>
+        <div class="set">
+            <button id="save" onclick="save">保存</button>
+            <button id="reset" onclick="reset">重置</button>
+            <button id="lastStep" onclick="lastStep">上一步</button>
+            <input type="range" min="1" max="30" value="1" id="range">
+        </div>
+    </div>
+</body>
+<script src="./method.js"></script>
+</html>
