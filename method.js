@@ -1,4 +1,4 @@
-const saveBtn = document.getElementById('save')
+    const saveBtn = document.getElementById('save')
     const resetBtn = document.getElementById('reset')
     const lastStepBtn = document.getElementById('lastStep')
     const range = document.querySelector('#range')
@@ -13,39 +13,45 @@ const saveBtn = document.getElementById('save')
     ctx.fillRect(0,0,canvas.width,canvas.height)
 
     // 画笔颜色
-    ctx.strokeStyle = '#000'
+    ctx.strokeStyle = 'black'
     
     // 笔画结束时的样式
     ctx.lineCap = 'round'
     // 笔画连接处的样式
     ctx.lineJoin = 'round'
 
+    // 判断是否移动端
+    const mobileStatus = (/Android|webOS|iPhone|iPad/i.test(navigator.userAgent))
+
     let flag =false
 
     // 按下
-    canvas.addEventListener('mousedown',function(e){
+    canvas.addEventListener(mobileStatus ? 'touchstart':'mousedown',function(e){
         flag = true
         ctx.beginPath()
+        // 获取偏移量及坐标
+        const {offsetX,offsetY,pageX,pageY} = mobileStatus ? e.changedTouches[0] : e
         // 画笔粗细 
         ctx.lineWidth = range.value || 2
-        ctx.moveTo(e.offsetX,e.offsetY)
+        ctx.moveTo(offsetX?offsetX:pageX,offsetY?offsetY:pageY)
         // 记录当前笔画
         currentPath = {
             color:ctx.strokeStyle,
             width:ctx.lineWidth,
-            path:[{x:e.offsetX,y:e.offsetY}]
+            path:[{x:offsetX?offsetX:pageX,y:offsetY?offsetY:pageY}]
         }
         // 移动
-        canvas.addEventListener('mousemove',movePen)
+        canvas.addEventListener(mobileStatus?'touchmove':'mousemove',movePen)
         // 抬起
-        canvas.addEventListener('mouseup',penUp)
+        canvas.addEventListener(mobileStatus?'touchend':'mouseup',penUp)
     })
 
     // 移动
     const movePen = (e)=>{
         if(flag){
-            ctx.lineTo(e.offsetX,e.offsetY)
-            currentPath.path.push({x:e.offsetX,y:e.offsetY})
+            const {offsetX,offsetY,pageX,pageY} = mobileStatus ? e.changedTouches[0] : e
+            ctx.lineTo(offsetX?offsetX:pageX,offsetY?offsetY:pageY)
+            currentPath.path.push({x:offsetX?offsetX:pageX,y:offsetY?offsetY:pageY})
             // 画出笔画
             ctx.stroke()
         }
